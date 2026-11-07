@@ -1078,6 +1078,25 @@ function setupEventListeners() {
 
 // Fetch Real Open Data (Yahoo Finance / TWSE / CoinGecko APIs)
 async function fetchLiveOpenMarketData(symbol) {
+    if (symbol === "0050.TW") {
+        try {
+            const response = await fetch("./0050-closes.json", { cache: "no-cache" });
+            if (!response.ok) throw new Error("TWSE data unavailable");
+            const rows = await response.json();
+            if (!Array.isArray(rows) || rows.length < 40 ||
+                !rows.every(([date, close]) => typeof date === "string" && Number.isFinite(close) && close > 0)) {
+                throw new Error("Invalid TWSE closing prices");
+            }
+            return {
+                prices: rows.map(([, close]) => close),
+                dates: rows.map(([date]) => date.slice(5).replace("-", "/")),
+                isLive: true,
+                sourceName: "臺灣證券交易所日收盤價（截至 " + rows.at(-1)[0] + "）"
+            };
+        } catch (error) {
+            console.warn("TWSE 0050 history:", error.message);
+        }
+    }
     let prices = [];
     let dates = [];
     let isLive = false;
@@ -1536,4 +1555,5 @@ function sleep(ms) {
 </script>
 </body>
 </html>
+
 
