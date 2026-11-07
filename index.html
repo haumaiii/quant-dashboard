@@ -733,6 +733,40 @@ body {
     border-top: 1px solid var(--border-color);
 }
 
+
+/* Keep dashboard panels and controls within narrow viewports. */
+.dashboard-grid > *, .signal-body > * { min-width: 0; }
+
+@media (max-width: 1100px) {
+    .navbar { flex-wrap: wrap; gap: 16px; }
+    .dashboard-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+    .signal-card { grid-column: 1 / -1; }
+    .signal-body { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .reasoning-box { grid-column: 1 / -1; }
+    .langgraph-card { grid-column: 1 / -1; }
+}
+
+@media (max-width: 700px) {
+    .app-container { padding: 12px; }
+    .navbar, .card { padding: 14px; }
+    .navbar, .logo-area, .market-selector-wrapper, .card-header,
+    .title-with-icon, .position-breakdown, .chart-controls { flex-wrap: wrap; gap: 8px; }
+    .market-selector-wrapper, .styled-select, .navbar .btn { width: 100%; min-width: 0; }
+    .styled-select { font-size: 16px; }
+    .brand-text h1 { font-size: 1.25rem; }
+    .brand-icon { width: 40px; height: 40px; }
+    .dashboard-grid, .signal-body { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+    .dashboard-grid > * { grid-column: 1 / -1; }
+    .langgraph-diagram { flex-direction: column; gap: 8px; padding: 12px; }
+    .graph-node { width: 100%; min-width: 0; }
+    .graph-arrow > i { transform: rotate(90deg); }
+    .formula-latex { overflow-x: auto; max-width: 100%; }
+    .logs-content, .reasoning-box { overflow-wrap: anywhere; }
+    .ito-metrics-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .param-row { flex-wrap: wrap; }
+    .param-row input[type="range"] { min-width: 0; }
+    .chart-wrapper { height: 260px; }
+}
 </style>
 </head>
 <body>
@@ -1555,5 +1589,6 @@ function sleep(ms) {
 </script>
 </body>
 </html>
+
 
 
